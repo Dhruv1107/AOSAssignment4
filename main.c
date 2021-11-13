@@ -26,8 +26,8 @@ int main(int argc, char **argv){
 	
 	noOfComplexNums = atoi(CNos);
 	//complexNum complexNums[noOfComplexNums];
-	complexNums = ( struct complex * ) malloc (noOfComplexNums* sizeof (struct complex));
-	printf("%d\n",noOfComplexNums);
+	complexNums = ( struct complex * ) malloc ((noOfComplexNums+1)* sizeof (struct complex));
+	//printf("%d\n",noOfComplexNums);
 	int index = 0;
 	
 	while (fgets(str,sizeof str,f) != NULL) {
