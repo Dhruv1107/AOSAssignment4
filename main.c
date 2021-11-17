@@ -42,6 +42,11 @@ int main(int argc, char **argv){
 		index++;
 		//printf("Index%d:%d+i%d\n",index,tk1,tk2);
 	}
+	
+	if(index <= 1){
+		printf("You need at atleast two numbers for complex number multiplication\n");
+		return 1;
+	}
 
 	complexNum last;
 	oddComplexNum.real = 0;
