@@ -25,6 +25,7 @@ int main(int argc, char **argv){
 	}
 	
 	noOfComplexNums = atoi(CNos);
+	//printf("%d\n",noOfComplexNums);
 	//complexNum complexNums[noOfComplexNums];
 	complexNums = ( struct complex * ) malloc ((noOfComplexNums+1)* sizeof (struct complex));
 	//printf("%d\n",noOfComplexNums);
@@ -33,12 +34,16 @@ int main(int argc, char **argv){
 	while (fgets(str,sizeof str,f) != NULL) {
 		token1 = strtok(str,"+");
 		token2 = strtok(NULL, "i");
+		//int tk1 = atoi(token1);
+		//int tk2 = atoi(token2);
+		
 		complexNums[index].real = atoi(token1);
 		complexNums[index].imaginary = atoi(token2);
 		index++;
+		//printf("Index%d:%d+i%d\n",index,tk1,tk2);
 	}
 
-	
+	complexNum last;
 	multiplyComplexNumbers(complexNums, index);
 	return 0;
 }
