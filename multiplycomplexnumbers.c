@@ -6,11 +6,24 @@ void displayComplexNumbers(complexNum *complexNums,int index) {
 	}
 }
 
+void *runner3(void *param) {
+	complexNum cn1 = *(complexNum *)param;
+	complexNum cn2 = oddComplexNum;
+	complexNum *res = malloc(sizeof(complexNum));
+	complexNum ans;
+	if(cn1.real == cn2.real && cn1.imaginary == cn2.imaginary){
+		*res = cn1;
+		return (void*) res;
+	}
+	ans.real = cn1.real * cn2.real - cn1.imaginary * cn2.imaginary;
+	ans.imaginary = cn1.real * cn2.imaginary + cn2.real * cn1.imaginary;
+	*res = ans;
+	return (void*) res;
+}
+
 void *runner1(void *param) {
 	complexNum cn1 = *(complexNum *)param;
 	complexNum cn2 = *(complexNum *)(param + sizeof(complexNum));
-	//printf("%d+i%d in thread\n",cn1.real,cn1.imaginary);
-	//printf("%d+i%d in thread\n",cn2.real,cn2.imaginary);
 	complexNum *res = malloc(sizeof(complexNum));
 	complexNum ans;
 	ans.real = cn1.real * cn2.real - cn1.imaginary * cn2.imaginary;
@@ -20,60 +33,54 @@ void *runner1(void *param) {
 }
 
 complexNum createThreads(complexNum *complexNums, int index) {
-	//printf("optional:%d\n",optional.real);
-	complexNum *res,*nextNums,lastCno;
-	//free(complexNums);
-	//res = ( struct complex * ) malloc(sizeof(struct complex));
+	complexNum *res,*nextNums;
+	//printf("Index:%d\n",index);
 	int noOfThreads = index/2;
-	pthread_t tid[noOfThreads];
-	pthread_attr_t attr;
-	pthread_attr_init(&attr);
-	int test = 0;
-	if(index % 2 == 1){
-		//lastCno = ( struct complex * ) malloc(sizeof(struct complex));
-		lastCno = complexNums[index-1];
-		printf("Last CNO:%d+i%d\n",lastCno.real,lastCno.imaginary);
+	
+	if(index % 2 == 1 && oddComplexNum.real == 0 && oddComplexNum.imaginary ==0){
+		oddComplexNum = complexNums[index-1];
+		printf("Last CNO:%d+i%d\n",oddComplexNum.real,oddComplexNum.imaginary);
+		//noOfThreads++;
 		test = 1;
 		
 	}
+	if(noOfThreads == 1 && test == 1){
+		noOfThreads++;
+		createExtraThread = 1;
+	}
+	//printf("No Of threads:%d\n",noOfThreads);
+	pthread_t tid[noOfThreads];
+	pthread_attr_t attr;
+	pthread_attr_init(&attr);
+	
+
 	//printf("No of threads:%d\n",noOfThreads);
 	for(int i=0; i< noOfThreads; i++){
+		if(i == (noOfThreads-1) && createExtraThread == 1){
+			pthread_create(&tid[i],&attr,runner3,&complexNums[i*2]);
+			createExtraThread = 0;
+			test = 0;
+			break;
+		}
 		if(pthread_create(&tid[i],&attr,runner1,&complexNums[i*2]) != 0){
 			perror("Failed to create thread\n");
 		}
 	}
 	int i = 0;
-	//free(complexNums);
-	/*if(optional.real){
-		if(noOfThreads == 1){
-			nextNums = ( struct complex * ) malloc ((noOfThreads+1)* sizeof (struct complex));
-			if(pthread_join(tid[0],(void**) &res) != 0){
-				perror("Failed to create thread\n");
-			}
-			nextNums[i].real = res->real;
-			nextNums[i].imaginary = res->imaginary;
-			i++;
-			nextNums[i] = optional;
-			sleep(30);
-			createThreads(nextNums,i,optional);
-			
-			//return;
-		}
-	}*/
 	if(noOfThreads == 1){
 		complexNum *res = malloc(sizeof(complexNum));
 		if(pthread_join(tid[0],(void**) &res) != 0){
 			perror("Failed to create thread\n");
 		}
-		//printf("Last CNO:%d+i%d\n",lastCno.real,lastCno.imaginary);
+		//printf("Last CNO:%d+i%d\n",oddComplexNum.real,oddComplexNum.imaginary);
 		//printf("Res:%d+i%d\n",res->real,res->imaginary);
 		if(test){
 			test = 0;
 			complexNum ans;
 			int resReal = res->real;
 			int resImag = res->imaginary;
-			int lastReal = lastCno.real;
-			int lastImag = lastCno.imaginary;
+			int lastReal = oddComplexNum.real;
+			int lastImag = oddComplexNum.imaginary;
 			ans.real = resReal * lastReal - resImag * lastImag;
 			ans.imaginary = resImag * lastReal + lastImag * resReal;
 			*res = ans;

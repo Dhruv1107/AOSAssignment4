@@ -13,6 +13,9 @@ typedef struct complex
     int imaginary;
 } complexNum;
 complexNum *complexNums;
+complexNum oddComplexNum;
+int test;
+int createExtraThread;
 
 void multiplyComplexNumbers(complexNum *cNums, int index);
 

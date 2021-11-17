@@ -44,6 +44,10 @@ int main(int argc, char **argv){
 	}
 
 	complexNum last;
+	oddComplexNum.real = 0;
+	oddComplexNum.imaginary = 0;
+	test = 0;
+	createExtraThread = 0;
 	multiplyComplexNumbers(complexNums, index);
 	return 0;
 }
