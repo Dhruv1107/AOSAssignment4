@@ -10,7 +10,7 @@ int main(int argc, char **argv){
 	char str[20];
 	char *token1, *token2;
 	
-	if(argc != 2){
+	if(argc != 2) {
 		printf("Execute it as: #executablename #inputfilename\n");
 		exit(1);
 	}
@@ -24,7 +24,7 @@ int main(int argc, char **argv){
 		return(-1); 
 	}
 	// if there is no error, read the first line which is no of complex nos
-	else{ 
+	else { 
 		fgets(CNos, 20, f);
 	}
 	
@@ -37,7 +37,7 @@ int main(int argc, char **argv){
 		token1 = strtok(str,"+");
 		//tokenize the string until i and store it in token2
 		token2 = strtok(NULL, "i");
-		if(!token2){
+		if(!token2) {
 			printf("Check your input format. It is wrong it should be a+i-b or a+ib\n");
 			return 1;
 		}
@@ -50,7 +50,7 @@ int main(int argc, char **argv){
 		index++;
 	}
 	
-	if(index <= 1){
+	if(index <= 1) {
 		printf("You need at atleast two numbers for complex number multiplication\n");
 		return 3;
 	}
