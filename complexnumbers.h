@@ -13,10 +13,12 @@ typedef struct complex
     int imaginary;
 } complexNum;
 complexNum *complexNums;
-complexNum oddComplexNum;
-int test;
-int createExtraThread;
 
+/*
+  Pre-condition: index greater than 1, 
+  		  the input format should for cNums should be in a+ib or a+i-b
+  Post-condition: Recursive function which gives the multiplication result of index number of threads
+*/
 void multiplyComplexNumbers(complexNum *cNums, int index);
 
 #endif

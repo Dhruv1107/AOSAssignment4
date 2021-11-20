@@ -1,0 +1,35 @@
+# AOSAssignment4<br/>
+1) Name = Dhruv Bhatnagar<br/>
+   BITS Student ID No: 2021H1030047G<br/><br/>
+2) Files:<br/>
+	main.c = Driver file it is used to call other modules<br/>
+	multiplycomplexnumbers.c = Used to multiply n complex numbers using threads<br/>
+	complexnumbers.h = Interface file that contains method signatures and shared memory variables<br/>
+	makefile = creates linkable files and executables<br/>
+	input.txt = first line contains num of complex numbers(say n), and the remaining lines has all the  n complex numbers<br/><br/>
+	
+3) Compilation = make<br/><br/>
+
+4) Execution = ./complexnumbers input.txt<br/><br/>
+	
+5) Structure of the Program( the whole logic is in multiplyComplexNumbers function in multiplycomplexnumbers.c)<br/>
+	a)	Create noOfThreads which is equal to floor(index/2) and each thread multiplies 2 complex numbers in the runner function<br/>
+	b)	We wait until all the threads are completed, and store the multiplication result of each of these threads that were computed in runner1 function in nextNums<br/>
+	c)	Base condition if no of threads = 1,<br/>
+			i) if index is odd then there is an extra complex number, so we create another thread with runner2 as function which multiplies last remaining complex number with the result<br/>
+			ii) if index is even, then there is no extra complex numbers so we return the result that we get from pthread_join<br/>
+	d)	We recursively call the same function with 'nextNums' and 'i' as parameters<br/>
+	e)	At the end we print the final ans from the Main Thread<br/><br/>
+
+6) Completed:<br/>
+	Printing the multiplication of n number of complex numbers using threads and it working for both even and odd num of complex numbers<br/>
+   Not Completed: N/A<br/><br/>
+   
+8) Bugs: In my short period of testing I couldn't find any bugs<br/><br/>
+
+Github link to my code: https://github.com/Dhruv1107/AOSAssignment4
+
+
+		
+			
+

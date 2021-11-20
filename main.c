@@ -1,5 +1,9 @@
 #include "complexnumbers.h"
 
+/*
+  Expected Command line arguments:
+  1) Input file that is to be read
+*/
 int main(int argc, char **argv){
 	int noOfComplexNums;
 	char CNos[20];
@@ -21,38 +25,36 @@ int main(int argc, char **argv){
 	}
 	// if there is no error, read the first line which is no of complex nos
 	else{ 
-		fgets(CNos, 20, f); // read from file
+		fgets(CNos, 20, f);
 	}
 	
 	noOfComplexNums = atoi(CNos);
-	//printf("%d\n",noOfComplexNums);
-	//complexNum complexNums[noOfComplexNums];
 	complexNums = ( struct complex * ) malloc ((noOfComplexNums+1)* sizeof (struct complex));
-	//printf("%d\n",noOfComplexNums);
 	int index = 0;
 	
 	while (fgets(str,sizeof str,f) != NULL) {
+		//tokenize the string until + and store it in token1
 		token1 = strtok(str,"+");
+		//tokenize the string until i and store it in token2
 		token2 = strtok(NULL, "i");
-		//int tk1 = atoi(token1);
-		//int tk2 = atoi(token2);
-		
+		if(!token2){
+			printf("Check your input format. It is wrong it should be a+i-b or a+ib\n");
+			return 1;
+		}
+		if(atoi(token1) == 0 && atoi(token2) == 0) {
+			printf("One of the complex number is 0+0i so the multiplication result would be 0+0i\n");
+			return 2;
+		}
 		complexNums[index].real = atoi(token1);
 		complexNums[index].imaginary = atoi(token2);
 		index++;
-		//printf("Index%d:%d+i%d\n",index,tk1,tk2);
 	}
 	
 	if(index <= 1){
 		printf("You need at atleast two numbers for complex number multiplication\n");
-		return 1;
+		return 3;
 	}
 
-	complexNum last;
-	oddComplexNum.real = 0;
-	oddComplexNum.imaginary = 0;
-	test = 0;
-	createExtraThread = 0;
 	multiplyComplexNumbers(complexNums, index);
 	return 0;
 }
